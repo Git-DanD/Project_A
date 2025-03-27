@@ -1,19 +1,10 @@
 fileFormatVersion: 2
-guid: 61dbac0b1d9941048bea5bc71295b308
+guid: eb3a4dd409ba78943991779f3ec5e01a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4615767096260957324
-    second: Project_A-Placeholder_Sprite-Sheet_0
-  - first:
-      213: -2635319609103004572
-    second: Project_A-Placeholder_Sprite-Sheet_1
-  - first:
-      213: 4765149509224637964
-    second: Project_A-Placeholder_Sprite-Sheet_2
-  - first:
-      213: -8591902858048201934
-    second: Project_A-Placeholder_Sprite-Sheet_3
+      213: -5356574185940491189
+    second: Wall_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -84,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -122,89 +113,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Project_A-Placeholder_Sprite-Sheet_0
+      name: Wall_0
       rect:
         serializedVersion: 2
-        x: 6
+        x: 0
         y: 0
-        width: 20
+        width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c84129af7bf7e0040800000000000000
-      internalID: 4615767096260957324
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Project_A-Placeholder_Sprite-Sheet_1
-      rect:
-        serializedVersion: 2
-        x: 38
-        y: 0
-        width: 20
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 46c4bcd27c67d6bd0800000000000000
-      internalID: -2635319609103004572
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Project_A-Placeholder_Sprite-Sheet_2
-      rect:
-        serializedVersion: 2
-        x: 70
-        y: 0
-        width: 20
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: c0626f65b36312240800000000000000
-      internalID: 4765149509224637964
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Project_A-Placeholder_Sprite-Sheet_3
-      rect:
-        serializedVersion: 2
-        x: 102
-        y: 0
-        width: 20
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 23b9f595fdd63c880800000000000000
-      internalID: -8591902858048201934
+      spriteID: b446df18820a9a5b0800000000000000
+      internalID: -5356574185940491189
       vertices: []
       indices: 
       edges: []
@@ -213,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 82e4e8230b25f8e448878b83b6e4e26a
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -223,10 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Project_A-Placeholder_Sprite-Sheet_0: 4615767096260957324
-      Project_A-Placeholder_Sprite-Sheet_1: -2635319609103004572
-      Project_A-Placeholder_Sprite-Sheet_2: 4765149509224637964
-      Project_A-Placeholder_Sprite-Sheet_3: -8591902858048201934
+      Wall_0: -5356574185940491189
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
