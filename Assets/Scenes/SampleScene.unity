@@ -1262,7 +1262,7 @@ GameObject:
   - component: {fileID: 1879872416}
   - component: {fileID: 1879872417}
   - component: {fileID: 1879872418}
-  - component: {fileID: 1879872419}
+  - component: {fileID: 1879872420}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1405,7 +1405,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.5, y: 0.875}
+    oldSize: {x: 1, y: 1}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -1449,7 +1449,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHP: 100
   healthBar: {fileID: 302150855}
---- !u!114 &1879872419
+--- !u!114 &1879872420
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1458,10 +1458,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1879872410}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0625d4042dc0774886794c441505098, type: 3}
+  m_Script: {fileID: 11500000, guid: 653feef1936b70c409a9da8ba29b7f29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
+  gridSize: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
