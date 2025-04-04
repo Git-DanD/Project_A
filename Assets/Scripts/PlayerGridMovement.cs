@@ -49,6 +49,20 @@ public class PlayerGridMovement : MonoBehaviour
     void TryMove(Vector3 direction)
     {
         Vector3 target = SnapToGrid(transform.position + direction * gridSize);
+
+        bool isDiagonal = direction.x != 0 && direction.y != 0;
+
+        if (isDiagonal)
+        {
+            // Check if both cardinal directions are unblocked
+            Vector3 horizontal = SnapToGrid(transform.position + new Vector3(direction.x, 0, 0) * gridSize);
+            Vector3 vertical = SnapToGrid(transform.position + new Vector3(0, direction.y, 0) * gridSize);
+
+            if (IsBlocked(horizontal) || IsBlocked(vertical))
+            {
+                return; // If either direction is blocked, cancel diagonal movement
+            }
+        }
         
         // Check if the target position is blocked by an obstacle
         if (!IsBlocked(target))

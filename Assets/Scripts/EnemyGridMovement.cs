@@ -58,7 +58,17 @@ public class EnemyMovement : MonoBehaviour
             direction.x = Mathf.Sign(direction.x) * gridSize * (Mathf.Abs(direction.x) / Mathf.Abs(direction.y)); // Proportional X movement
         }
 
-        targetPosition = SnapToGrid(transform.position + direction);
+        Vector3 potentialTargetPosition = SnapToGrid(transform.position + direction);
+
+        // Check if the target position is blocked (e.g., by a wall)
+        if (IsBlocked(potentialTargetPosition))
+        {
+            // If blocked, stop moving (or implement an alternative behavior like finding a different path)
+            return;
+        }
+
+        // Set the valid target position
+        targetPosition = potentialTargetPosition;
     }
 
     // Snap to the nearest grid cell
@@ -84,7 +94,7 @@ public class EnemyMovement : MonoBehaviour
         isMoving = false;  // Stop moving once the enemy reaches the target position
     }
 
-    // Checks if the target position is blocked by any obstacle tiles
+    // Checks if the target position is blocked by any obstacle tiles (like a wall)
     bool IsBlocked(Vector3 position)
     {
         Vector3Int cellPosition = tilemap.WorldToCell(position);  // Convert world position to tilemap cell position
@@ -92,7 +102,7 @@ public class EnemyMovement : MonoBehaviour
         // Get the tile at the specified cell position
         TileBase tile = tilemap.GetTile(cellPosition);
 
-        // If a tile exists, check if it is a type of obstacle
+        // If a tile exists, check if it is a type of obstacle (e.g., wall)
         if (tile != null)
         {
             // Check if the tile has a collider (indicating it's an obstacle)

@@ -2280,7 +2280,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 653feef1936b70c409a9da8ba29b7f29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  moveSpeed: 3
   gridSize: 1
   tilemap: {fileID: 358564893}
 --- !u!114 &1879872421
@@ -2399,10 +2399,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8eb0817ee0110244ab03d23c8f952388, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  moveSpeed: 2.5
   gridSize: 1
   chaseRange: 2
-  tilemap: {fileID: 0}
+  tilemap: {fileID: 358564893}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
