@@ -23,10 +23,19 @@ public class PlayerGridMovement : MonoBehaviour
         // Only allow movement if the player is not currently moving
         if (!isMoving)
         {
-            if (Input.GetKey(KeyCode.W)) TryMove(Vector3.up);     // Move up
-            if (Input.GetKey(KeyCode.S)) TryMove(Vector3.down);   // Move down
-            if (Input.GetKey(KeyCode.A)) TryMove(Vector3.left);   // Move left
-            if (Input.GetKey(KeyCode.D)) TryMove(Vector3.right);  // Move right
+            // Get the movement direction from input
+            Vector3 movementDirection = Vector3.zero;
+
+            if (Input.GetKey(KeyCode.W)) movementDirection += Vector3.up;     // Move up
+            if (Input.GetKey(KeyCode.S)) movementDirection += Vector3.down;   // Move down
+            if (Input.GetKey(KeyCode.A)) movementDirection += Vector3.left;   // Move left
+            if (Input.GetKey(KeyCode.D)) movementDirection += Vector3.right;  // Move right
+
+            // If there is any movement direction input, try to move
+            if (movementDirection != Vector3.zero)
+            {
+                TryMove(movementDirection.normalized);  // Normalize to maintain consistent speed
+            }
         }
 
         // Smooth movement towards the target position
@@ -77,11 +86,10 @@ public class PlayerGridMovement : MonoBehaviour
         // If a tile exists, check if it is a type of obstacle
         if (tile != null)
         {
-            // You can check based on tags or properties for the obstacle tiles.
-            // For now, let's assume we tag obstacle tiles as "Obstacle" in the Inspector
+            // Check if the tile has a collider (indicating it's an obstacle)
             if (tilemap.GetColliderType(cellPosition) != Tile.ColliderType.None)
             {
-                return true; // Blocked if tile has a collider or other conditions
+                return true; // Blocked if tile has a collider
             }
         }
 
