@@ -3,15 +3,17 @@ using System.Collections;
 
 public class PlayerGridMovement : MonoBehaviour
 {
-    public float moveSpeed = 5f;  // Speed (not used for movement steps)
+    public float moveSpeed = 5f;  // Controls movement speed per step
     public float gridSize = 1f / 3f; // 32 pixels per step (PPU 96)
-    
-    private Vector3 targetPosition; 
+
+    private Vector3 targetPosition;
     private bool isMoving = false;
 
     void Start()
     {
-        targetPosition = transform.position; // Start on grid
+        // Snap the player's starting position to the grid
+        transform.position = SnapToGrid(transform.position);
+        targetPosition = transform.position;
     }
 
     void Update()
@@ -31,7 +33,7 @@ public class PlayerGridMovement : MonoBehaviour
         targetPosition = transform.position + direction * gridSize;
 
         float elapsedTime = 0f;
-        float moveDuration = gridSize / moveSpeed; // Duration per step
+        float moveDuration = gridSize / moveSpeed; // Time to complete a move
 
         while (elapsedTime < moveDuration)
         {
@@ -40,7 +42,15 @@ public class PlayerGridMovement : MonoBehaviour
             yield return null;
         }
 
-        transform.position = targetPosition; // Ensure exact position
+        transform.position = SnapToGrid(targetPosition); // Snap to grid after moving
         isMoving = false;
+    }
+
+    // Ensures the player is always centered on the grid
+    private Vector3 SnapToGrid(Vector3 position)
+    {
+        float snappedX = Mathf.Round(position.x / gridSize) * gridSize;
+        float snappedY = Mathf.Round(position.y / gridSize) * gridSize;
+        return new Vector3(snappedX, snappedY, position.z);
     }
 }
