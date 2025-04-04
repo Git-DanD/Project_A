@@ -42,34 +42,52 @@ public class EnemyMovement : MonoBehaviour
 
     // Move towards the player's position (diagonal and straight movement)
     void MoveTowardsPlayer()
+{
+    // Get raw direction toward the player
+    Vector3 direction = player.position - transform.position;
+
+    // Determine dominant direction and normalize to grid size
+    if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
     {
-        // Get direction towards the player in grid steps (can move diagonally)
-        Vector3 direction = player.position - transform.position;
-
-        // Normalize the direction and snap it to the grid
-        if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
-        {
-            direction.x = Mathf.Sign(direction.x) * gridSize;
-            direction.y = Mathf.Sign(direction.y) * gridSize * (Mathf.Abs(direction.y) / Mathf.Abs(direction.x)); // Proportional Y movement
-        }
-        else
-        {
-            direction.y = Mathf.Sign(direction.y) * gridSize;
-            direction.x = Mathf.Sign(direction.x) * gridSize * (Mathf.Abs(direction.x) / Mathf.Abs(direction.y)); // Proportional X movement
-        }
-
-        Vector3 potentialTargetPosition = SnapToGrid(transform.position + direction);
-
-        // Check if the target position is blocked (e.g., by a wall)
-        if (IsBlocked(potentialTargetPosition))
-        {
-            // If blocked, stop moving (or implement an alternative behavior like finding a different path)
-            return;
-        }
-
-        // Set the valid target position
-        targetPosition = potentialTargetPosition;
+        direction.x = Mathf.Sign(direction.x) * gridSize;
+        direction.y = Mathf.Sign(direction.y) * gridSize * (Mathf.Abs(direction.y) / Mathf.Abs(direction.x));
     }
+    else
+    {
+        direction.y = Mathf.Sign(direction.y) * gridSize;
+        direction.x = Mathf.Sign(direction.x) * gridSize * (Mathf.Abs(direction.x) / Mathf.Abs(direction.y));
+    }
+
+    Vector3 snappedDirection = new Vector3(
+        Mathf.Round(direction.x / gridSize) * gridSize,
+        Mathf.Round(direction.y / gridSize) * gridSize,
+        0
+    );
+
+    Vector3 potentialTargetPosition = SnapToGrid(transform.position + snappedDirection);
+
+    bool isDiagonal = snappedDirection.x != 0 && snappedDirection.y != 0;
+
+    if (isDiagonal)
+    {
+        Vector3 horizontal = SnapToGrid(transform.position + new Vector3(snappedDirection.x, 0, 0));
+        Vector3 vertical = SnapToGrid(transform.position + new Vector3(0, snappedDirection.y, 0));
+
+        if (IsBlocked(horizontal) || IsBlocked(vertical))
+        {
+            return; // Cancel diagonal move if either axis is blocked
+        }
+    }
+
+    // Block full movement if target is obstructed
+    if (IsBlocked(potentialTargetPosition))
+    {
+        return;
+    }
+
+    targetPosition = potentialTargetPosition;
+}
+
 
     // Snap to the nearest grid cell
     private Vector3 SnapToGrid(Vector3 position)
