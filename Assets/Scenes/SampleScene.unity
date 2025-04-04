@@ -167,10 +167,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -1354,7 +1354,7 @@ GameObject:
   m_Component:
   - component: {fileID: 358983257}
   - component: {fileID: 358983259}
-  - component: {fileID: 358983258}
+  - component: {fileID: 358983260}
   m_Layer: 5
   m_Name: ManaBar
   m_TagString: Untagged
@@ -1383,19 +1383,6 @@ RectTransform:
   m_AnchoredPosition: {x: -756, y: 396.87988}
   m_SizeDelta: {x: 200, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &358983258
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 358983256}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26c57be1bcfa15240b6bb4b01d3fe78b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  slider: {fileID: 358983259}
 --- !u!114 &358983259
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1447,6 +1434,19 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &358983260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 358983256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d71c5b7b4081194b80c2505a559dcc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slider: {fileID: 358983259}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -2094,11 +2094,11 @@ GameObject:
   - component: {fileID: 1879872415}
   - component: {fileID: 1879872416}
   - component: {fileID: 1879872417}
-  - component: {fileID: 1879872418}
   - component: {fileID: 1879872420}
+  - component: {fileID: 1879872421}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2268,22 +2268,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1879872418
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1879872410}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a8ad579a0e6c8b4294bc3f34b3e6300, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHP: 100
-  maxMana: 100
-  healthBar: {fileID: 302150855}
-  manaBar: {fileID: 0}
 --- !u!114 &1879872420
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2299,6 +2283,22 @@ MonoBehaviour:
   moveSpeed: 5
   gridSize: 1
   tilemap: {fileID: 358564893}
+--- !u!114 &1879872421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1879872410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a8ad579a0e6c8b4294bc3f34b3e6300, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHP: 100
+  maxMana: 100
+  healthBar: {fileID: 302150855}
+  manaBar: {fileID: 358983260}
 --- !u!1 &1991798562
 GameObject:
   m_ObjectHideFlags: 0
@@ -2309,6 +2309,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1991798564}
   - component: {fileID: 1991798563}
+  - component: {fileID: 1991798565}
   m_Layer: 0
   m_Name: Dummy
   m_TagString: Untagged
@@ -2386,15 +2387,31 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1991798565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1991798562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8eb0817ee0110244ab03d23c8f952388, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 5
+  gridSize: 1
+  chaseRange: 2
+  tilemap: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 519420032}
   - {fileID: 619394802}
+  - {fileID: 133741826}
   - {fileID: 1879872412}
   - {fileID: 1017386680}
   - {fileID: 950868763}
-  - {fileID: 133741826}
   - {fileID: 1613158137}
   - {fileID: 1991798564}
