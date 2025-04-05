@@ -3,49 +3,70 @@ using System.Collections;
 
 public class EnemyHealth : MonoBehaviour
 {
-    public int maxHealth = 100;  // Max health of the enemy
-    private int currentHealth;   // Current health
+    public int maxHP = 100;
+    private int currentHP;
 
-    private SpriteRenderer spriteRenderer;  // Reference to SpriteRenderer for flashing red
+    private SpriteRenderer spriteRenderer;
+    private bool inCombat = false;
+
+    public EnemyHealthBar healthBar; // Reference to the health bar script
+
+    private float combatTimer = 0f;
+    private float combatDuration = 3f; // Time in seconds to stay visible after last hit
 
     void Start()
     {
-        currentHealth = maxHealth; // Initialize current health to max health
-        spriteRenderer = GetComponent<SpriteRenderer>(); // Get the SpriteRenderer
+        currentHP = maxHP;
+        healthBar.SetMaxHP(maxHP);
+        healthBar.Hide();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    // Method to take damage
     public void TakeDamage(int damage)
     {
-        if (currentHealth <= 0) return; // If the enemy is already dead, don't apply damage
+        currentHP -= damage;
+        if (currentHP < 0) currentHP = 0;
 
-        currentHealth -= damage; // Decrease current health by the damage value
-        Debug.Log("Enemy took damage. Current Health: " + currentHealth);  // Debug log for damage
-
-        if (currentHealth <= 0)
+        if (!inCombat)
         {
-            currentHealth = 0;
-            Die();  // Enemy dies when health reaches 0
+            inCombat = true;
+            healthBar.Show();
         }
-        else
+
+        healthBar.SetHP(currentHP);
+
+        StartCoroutine(FlashRed());
+
+        combatTimer = combatDuration; // Reset the fade timer on taking damage
+
+        if (currentHP <= 0)
         {
-            StartCoroutine(FlashRed());  // Flash the enemy red when it takes damage
+            Die();
         }
     }
 
-    // Flash the enemy red when hit
     IEnumerator FlashRed()
     {
-        spriteRenderer.color = Color.red;  // Change color to red
-        yield return new WaitForSeconds(0.1f);  // Flash duration
-        spriteRenderer.color = Color.white;  // Change back to normal color
+        spriteRenderer.color = Color.red;
+        yield return new WaitForSeconds(0.1f);
+        spriteRenderer.color = Color.white;
     }
 
-    // When enemy dies
+    void Update()
+    {
+        if (inCombat)
+        {
+            combatTimer -= Time.deltaTime;
+            if (combatTimer <= 0f)
+            {
+                inCombat = false;
+                healthBar.Hide();
+            }
+        }
+    }
+
     void Die()
     {
-        Debug.Log("Enemy died!");
-        // Optionally trigger death animations, effects, etc.
-        Destroy(gameObject);  // Destroy the enemy GameObject
+        Destroy(gameObject);
     }
 }

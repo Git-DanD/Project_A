@@ -6,11 +6,20 @@ public class PlayerAttack : MonoBehaviour
     public float attackRange = 1f;  // How far the player can hit
     public LayerMask enemyLayer;  // The layer where enemies are located
 
+    public float attackCooldown = 0.5f; // cooldown time
+    private float cooldownTimer = 0f; 
+
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))  // Left-click for attack
+        if (cooldownTimer > 0)
+        {
+            cooldownTimer -= Time.deltaTime;
+        }
+
+        if (Input.GetMouseButtonDown(0) && cooldownTimer <= 0)  // Left-click for attack
         {
             Attack();
+            cooldownTimer = attackCooldown; // reset cooldown
         }
     }
 
