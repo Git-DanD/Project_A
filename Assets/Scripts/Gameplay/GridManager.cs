@@ -2,19 +2,17 @@ using UnityEngine;
 
 public class GridManager : MonoBehaviour
 {
-    public float gridSize = 1f; // Size of each grid cell
-    public int width = 10; // Number of cells in the X direction
-    public int height = 10; // Number of cells in the Y direction
+    public int width = 10;
+    public int height = 10;
+    public float gridSize = 1f;
 
-    public Vector3 GridToWorldPosition(int x, int y)
+    // Method to convert world position to grid cell position
+    public Vector3 GetGridPosition(Vector3 worldPosition)
     {
-        return new Vector3(x * gridSize, y * gridSize, 0);
-    }
+        // Convert world position to grid position based on grid size
+        float x = Mathf.Floor(worldPosition.x / gridSize) * gridSize;
+        float y = Mathf.Floor(worldPosition.y / gridSize) * gridSize;
 
-    public Vector3 SnapToGrid(Vector3 worldPosition)
-    {
-        float snappedX = Mathf.Round(worldPosition.x / gridSize) * gridSize;
-        float snappedY = Mathf.Round(worldPosition.y / gridSize) * gridSize;
-        return new Vector3(snappedX, snappedY, worldPosition.z);
+        return new Vector3(x, y, worldPosition.z);
     }
 }
