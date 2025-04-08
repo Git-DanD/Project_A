@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Collections;
 
-public class PlayerGridMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed = 5f;   // Movement speed (units per second)
     public float gridSize = 1f;    // Grid size (one cell = 1 unit)
@@ -20,96 +20,91 @@ public class PlayerGridMovement : MonoBehaviour
 
     void Update()
     {
-        // Only allow movement if the player is not currently moving
-        if (!isMoving)
+        // Get movement direction based on input keys (WASD)
+        Vector3 movementDirection = Vector3.zero;
+
+        if (Input.GetKey(KeyCode.W)) movementDirection += Vector3.up;
+        if (Input.GetKey(KeyCode.S)) movementDirection += Vector3.down;
+        if (Input.GetKey(KeyCode.A)) movementDirection += Vector3.left;
+        if (Input.GetKey(KeyCode.D)) movementDirection += Vector3.right;
+
+        // Only attempt to start a new move if the player isn't already moving
+        if (movementDirection != Vector3.zero && !isMoving)
         {
-            // Get the movement direction from input
-            Vector3 movementDirection = Vector3.zero;
-
-            if (Input.GetKey(KeyCode.W)) movementDirection += Vector3.up;     // Move up
-            if (Input.GetKey(KeyCode.S)) movementDirection += Vector3.down;   // Move down
-            if (Input.GetKey(KeyCode.A)) movementDirection += Vector3.left;   // Move left
-            if (Input.GetKey(KeyCode.D)) movementDirection += Vector3.right;  // Move right
-
-            // If there is any movement direction input, try to move
-            if (movementDirection != Vector3.zero)
-            {
-                TryMove(movementDirection.normalized);  // Normalize to maintain consistent speed
-            }
+            TryMove(movementDirection.normalized); // Normalize direction to maintain consistent speed
         }
 
-        // Smooth movement towards the target position
+        // Move continuously toward target position until it is reached
         if (transform.position != targetPosition)
         {
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
         }
     }
 
-    // Tries to move in the given direction if the position is not blocked
     void TryMove(Vector3 direction)
     {
-        // Snap to grid for the target position
-        Vector3 target = SnapToGrid(transform.position + direction * gridSize);
+        // Get the current position snapped to grid
+        Vector3 currentGridPos = SnapToGrid(transform.position);
+        // Calculate the target position (next grid cell in the movement direction)
+        Vector3 desiredPosition = currentGridPos + direction * gridSize;
 
-        // Check if movement is diagonal (both x and y directions)
-        bool isDiagonal = direction.x != 0 && direction.y != 0;
-
-        if (isDiagonal)
+        // Handle diagonal movement (ensure that both x and y directions are considered together)
+        if (direction.x != 0 && direction.y != 0)
         {
-            // Check if the horizontal (left/right) and vertical (up/down) directions are both clear
-            Vector3 horizontalTarget = SnapToGrid(transform.position + new Vector3(direction.x, 0, 0) * gridSize);
-            Vector3 verticalTarget = SnapToGrid(transform.position + new Vector3(0, direction.y, 0) * gridSize);
+            // For diagonal movement, we want to use the same target cell for both axes
+            Vector3 target = SnapToGrid(currentGridPos + direction * gridSize);
 
-            // If either direction is blocked, don't allow diagonal movement
-            if (IsBlocked(horizontalTarget) || IsBlocked(verticalTarget))
+            // If the target position is blocked, don't move
+            if (IsBlocked(target))
             {
-                return;
+                return; // Prevent diagonal movement if blocked
             }
-        }
 
-        // If the target position is not blocked, proceed with the movement
-        if (!IsBlocked(target))
-        {
+            // Allow movement to the target position if it's not blocked
             targetPosition = target;
-            isMoving = true;  // Player is now moving
-            StartCoroutine(StopMoving());  // Call StopMoving coroutine after movement
+            isMoving = true;
+            StartCoroutine(MoveCoroutine());
+        }
+        else
+        {
+            // For non-diagonal movement (only x or y axis), we just check the single direction
+            if (!IsBlocked(desiredPosition))
+            {
+                targetPosition = desiredPosition;
+                isMoving = true;
+                StartCoroutine(MoveCoroutine());
+            }
         }
     }
 
-    // Coroutine to stop movement after reaching the target position
-    IEnumerator StopMoving()
+    IEnumerator MoveCoroutine()
     {
         // Wait until the player has reached the target position
         yield return new WaitUntil(() => transform.position == targetPosition);
         isMoving = false;  // Stop moving once the player has reached the target position
     }
 
-    // Ensures the player is always centered on the grid (snaps to nearest grid cell)
     private Vector3 SnapToGrid(Vector3 position)
     {
+        // Snap position to the nearest grid cell
         float snappedX = Mathf.Round(position.x / gridSize) * gridSize;
         float snappedY = Mathf.Round(position.y / gridSize) * gridSize;
         return new Vector3(snappedX, snappedY, position.z);
     }
 
-    // Checks if the target position is blocked by any obstacle tiles
-    bool IsBlocked(Vector3 position)
+    bool IsBlocked(Vector3 worldPosition)
     {
-        Vector3Int cellPosition = tilemap.WorldToCell(position);  // Convert world position to tilemap cell position
-        
-        // Get the tile at the specified cell position
+        // Convert world position to tilemap grid position
+        Vector3Int cellPosition = tilemap.WorldToCell(worldPosition);
+
+        // Get the tile at the specified position
         TileBase tile = tilemap.GetTile(cellPosition);
 
-        // If a tile exists, check if it is a type of obstacle
-        if (tile != null)
-        {
-            // Check if the tile has a collider (indicating it's an obstacle)
-            if (tilemap.GetColliderType(cellPosition) != Tile.ColliderType.None)
-            {
-                return true; // Blocked if tile has a collider
-            }
-        }
+        if (tile == null)
+            return false; // No tile = no block
 
-        return false;  // Tile is not an obstacle or there is no tile
+        // Check if the tile has a collider (i.e., it's an obstacle like a wall)
+        Tile.ColliderType collider = tilemap.GetColliderType(cellPosition);
+        return collider != Tile.ColliderType.None;
     }
 }
